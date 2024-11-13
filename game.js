@@ -1,6 +1,17 @@
 // global variables -----------------------------
+// position variables -----
 let x = 100;
 let y = 100;
+
+let characterX = 100;
+let characterY = 100;
+
+// game logic variables -----
+let velocityY = 0.2;
+let acceleration = 0.2;
+
+// game state variables -----
+let gameState = true;
 
 function setup() {
   createCanvas(1000, 500);
@@ -143,6 +154,7 @@ function treeDarkBackground(x, y) {
 }
 
 function character(x, y) {
+  push();
   // scale -----------------------------------------
   scale(0.2);
   // arms ------------------------------------------
@@ -272,9 +284,33 @@ function character(x, y) {
   stroke(0, 0, 0);
 
   ellipse(x, y + 37, 15, 20);
+
+  pop();
 }
 
-function draw() {
+function trampoline(x, y) {
+  push();
+  // scale -----------------------------------------
+  scale(0.3);
+  // mat -------------------------------------------
+  strokeWeight(6);
+  stroke(0, 0, 0);
+  fill(255, 0, 255);
+  ellipse(x, y, 180, 50);
+
+  // legs ------------------------------------------
+  strokeWeight(6);
+  stroke(0, 0, 0);
+
+  line(x - 90, y, x - 90, y + 40);
+  line(x + 90, y, x + 90, y + 40);
+
+  line(x - 70, y + 16, x - 70, y + 40);
+  line(x + 70, y + 16, x + 70, y + 40);
+  pop();
+}
+
+function completeBackground() {
   background(45, 116, 73);
 
   // background trees----------------------------
@@ -309,7 +345,18 @@ function draw() {
   treeDarkBackground(x + 300, y + 500);
   treeDarkBackground(x + 1300, y + 500);
   pop();
+}
+
+function draw() {
+  completeBackground();
 
   // character ----------------------------------
-  character(x + 2400, y);
+  character(characterX + 2400, characterY);
+
+  // character logic -----
+  characterY = characterY + velocityY;
+  velocityY = velocityY + acceleration;
+
+  // trampoline ---------------------------------
+  trampoline(x + 1560, y + 1530);
 }
