@@ -7,6 +7,7 @@ function setup() {
 }
 
 function backtrees(x, y) {
+  noStroke();
   fill(35, 88, 56);
   ellipse(x - 20, y + 240, 200);
   ellipse(x + 100, y + 250, 100);
@@ -141,6 +142,138 @@ function treeDarkBackground(x, y) {
   endShape();
 }
 
+function character(x, y) {
+  // scale -----------------------------------------
+  scale(0.2);
+  // arms ------------------------------------------
+  fill(0, 0, 0);
+  noStroke();
+
+  // left
+  push();
+  translate(x - 70, y + 70);
+  rotate(-0.4);
+  ellipse(0, 0, 40, 80);
+  pop();
+
+  // right
+  push();
+  translate(x + 70, y + 70);
+  rotate(0.4);
+  ellipse(0, 0, 40, 80);
+  pop();
+
+  // legs ------------------------------------------
+  // left
+  ellipse(x - 40, y + 200, 45, 90);
+
+  // right
+  ellipse(x + 40, y + 200, 45, 90);
+
+  // body ------------------------------------------
+  // black
+  ellipse(x, y + 120, 150, 160);
+
+  // white
+  fill(255, 255, 255);
+
+  beginShape();
+  vertex(x - 75, y + 120);
+  bezierVertex(x - 65, y + 50, x + 65, y + 50, x + 75, y + 120);
+  endShape();
+
+  beginShape();
+  vertex(x - 75, y + 120);
+  bezierVertex(x - 110, y + 230, x + 120, y + 230, x + 75, y + 120);
+  endShape();
+
+  // ears ------------------------------------------
+  fill(0, 0, 0);
+
+  // left
+  push();
+  translate(x - 55, y - 30);
+  rotate(-0.75);
+  ellipse(0, 0, 40, 50);
+  pop();
+
+  // right
+  push();
+  translate(x + 55, y - 30);
+  rotate(0.75);
+  ellipse(0, 0, 40, 50);
+  pop();
+
+  // head ------------------------------------------
+  fill(255, 255, 255);
+  ellipse(x, y + 5, 140, 110);
+
+  // cheeks ----------------------------------------
+  fill(253, 194, 228);
+
+  // left
+  push();
+  translate(x - 50, y + 22);
+  rotate(0.5);
+  ellipse(0, 0, 22);
+  pop();
+
+  // right
+  push();
+  translate(x + 50, y + 22);
+  rotate(-0.5);
+  ellipse(0, 0, 22);
+  pop();
+
+  // eyes ------------------------------------------
+  // around eye -----
+  fill(0, 0, 0);
+
+  // left
+  push();
+  translate(x - 35, y);
+  rotate(0.5);
+  ellipse(0, 0, 40, 50);
+  pop();
+
+  // right
+  push();
+  translate(x + 35, y);
+  rotate(-0.5);
+  ellipse(0, 0, 40, 50);
+  pop();
+
+  // inside eyes -----
+  fill(255, 255, 255);
+
+  // left
+  push();
+  translate(x - 35, y);
+  ellipse(0, 0, 7);
+  pop();
+
+  // right
+  push();
+  translate(x + 35, y);
+  ellipse(0, 0, 7);
+  pop();
+
+  // nose ------------------------------------------
+  // base
+  push();
+  fill(0, 0, 0);
+  translate(x, y + 15);
+  triangle(-12, 0, 0, 12, 12, 0);
+  pop();
+
+  // mouth -----------------------------------------
+  noFill();
+  strokeWeight(3);
+  stroke(0, 0, 0);
+
+  ellipse(x, y + 37, 15, 20);
+}
+
 function draw() {
   background(45, 116, 73);
 
@@ -176,4 +309,7 @@ function draw() {
   treeDarkBackground(x + 300, y + 500);
   treeDarkBackground(x + 1300, y + 500);
   pop();
+
+  // character ----------------------------------
+  character(x + 2400, y);
 }
