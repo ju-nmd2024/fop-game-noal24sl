@@ -1,7 +1,179 @@
+// global variables -----------------------------
+let x = 100;
+let y = 100;
+
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(1000, 500);
+}
+
+function backtrees(x, y) {
+  fill(35, 88, 56);
+  ellipse(x - 20, y + 240, 200);
+  ellipse(x + 100, y + 250, 100);
+  ellipse(x + 170, y + 300, 150);
+  ellipse(x + 270, y + 320, 80);
+  ellipse(x + 350, y + 350, 130);
+  ellipse(x + 450, y + 350, 150);
+  ellipse(x + 520, y + 290, 80);
+  ellipse(x + 600, y + 270, 130);
+  ellipse(x + 650, y + 250, 150);
+  ellipse(x + 700, y + 200, 80);
+  ellipse(x + 820, y + 240, 220);
+
+  rect(x - 100, y + 210, 200, 300);
+  rect(x, y + 310, 600, 190);
+  rect(x + 600, y + 210, 600, 300);
+}
+
+function treeLightBackground(x, y) {
+  // tree ---------------------------------------
+  // leaves -----
+  // showing
+  push();
+  fill(22, 63, 34);
+  translate(x, y + 20);
+  ellipse(0, 0, 100, 80);
+  pop();
+
+  // erase
+  push();
+  fill(45, 116, 73);
+  translate(x + 10, y + 20);
+  ellipse(0, 0, 80, 100);
+  pop();
+
+  // showing
+  push();
+  fill(46, 82, 28);
+  translate(x + 35, y + 50);
+  rotate(0.2);
+  ellipse(0, 0, 150, 100);
+  pop();
+
+  // erase
+  push();
+  fill(45, 116, 73);
+  translate(x + 35, y + 80);
+  rotate(0.2);
+  ellipse(0, 0, 150, 100);
+  pop();
+
+  // showing
+  push();
+  fill(166, 179, 105);
+  translate(x - 110, y + 50);
+  rotate(0.2);
+  ellipse(0, 0, 150, 100);
+  pop();
+
+  // erase
+  push();
+  fill(45, 116, 73);
+  translate(x - 100, y + 70);
+  rotate(0.2);
+  ellipse(0, 0, 150, 80);
+  pop();
+
+  // stem -----
+  beginShape();
+  fill(95, 68, 40);
+  noStroke();
+  vertex(x - 80, y + 500);
+  bezierVertex(x - 10, y + 300, x - 70, y - 420, x, y + 500);
+  endShape();
+}
+
+function treeDarkBackground(x, y) {
+  // tree ---------------------------------------
+  // leaves -----
+  // showing
+  push();
+  fill(22, 63, 34);
+  translate(x, y + 20);
+  ellipse(0, 0, 100, 80);
+  pop();
+
+  // erase
+  push();
+  fill(35, 88, 56);
+  translate(x + 10, y + 20);
+  ellipse(0, 0, 80, 100);
+  pop();
+
+  // showing
+  push();
+  fill(46, 82, 28);
+  translate(x + 35, y + 50);
+  rotate(0.2);
+  ellipse(0, 0, 150, 100);
+  pop();
+
+  // erase
+  push();
+  fill(35, 88, 56);
+  translate(x + 35, y + 80);
+  rotate(0.2);
+  ellipse(0, 0, 150, 100);
+  pop();
+
+  // showing
+  push();
+  fill(166, 179, 105);
+  translate(x - 110, y + 50);
+  rotate(0.2);
+  ellipse(0, 0, 150, 100);
+  pop();
+
+  // erase
+  push();
+  fill(35, 88, 56);
+  translate(x - 100, y + 70);
+  rotate(0.2);
+  ellipse(0, 0, 150, 80);
+  pop();
+
+  // stem -----
+  beginShape();
+  fill(95, 68, 40);
+  noStroke();
+  vertex(x - 80, y + 500);
+  bezierVertex(x - 10, y + 300, x - 70, y - 420, x, y + 500);
+  endShape();
 }
 
 function draw() {
-  background(255, 140, 0);
+  background(45, 116, 73);
+
+  // background trees----------------------------
+  backtrees(x, y - 50);
+
+  // trees --------------------------------------
+  treeLightBackground(x, y - 60);
+  treeLightBackground(x + 850, y - 60);
+
+  push();
+  scale(0.3);
+  treeDarkBackground(x + 450, y + 1100);
+  treeDarkBackground(x + 1150, y + 1200);
+  treeDarkBackground(x + 1600, y + 1200);
+  treeDarkBackground(x + 2700, y + 1100);
+  pop();
+
+  push();
+  scale(0.8);
+  treeLightBackground(x + 650, y + 100);
+  treeLightBackground(x + 300, y + 100);
+  pop();
+
+  push();
+  scale(0.6);
+  treeLightBackground(x + 650, y + 300);
+  treeDarkBackground(x + 1200, y + 300);
+  pop();
+
+  push();
+  scale(0.5);
+  treeDarkBackground(x + 300, y + 500);
+  treeDarkBackground(x + 1300, y + 500);
+  pop();
 }
