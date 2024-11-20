@@ -457,6 +457,7 @@ function draw() {
     // up arrow
     if (keyIsDown(38)) {
       speed = speed - 0.1;
+      // else
     } else {
       speed = speed + 0.1;
     }
@@ -469,6 +470,7 @@ function draw() {
       characterX = characterX + speed;
     }
 
+    // ** done with the help of lab assistants ** //
     // game outcome logic -----
     // if character has fallen below the trampoline
     if (characterY + 220 > trampolineY) {
@@ -479,6 +481,8 @@ function draw() {
         characterY + 220 > trampolineY &&
         speed <= 10
       ) {
+        // ** inspired by the help of chat gpt ** //
+        // https://chatgpt.com/c/673e02db-8cf8-800e-997a-68bfc58697da
         // win game
         winGame(x, y);
         noLoop();
@@ -516,6 +520,8 @@ function mousePressed() {
       mouseY < y + 100 + 100 // bottom
     ) {
       // reset the game
+      // ** inspired by the help of chat gpt ** //
+      // https://chatgpt.com/c/673e0dee-06c4-800e-845c-61e299b2e386
       characterX = Math.random() * (width / 0.3);
       characterY = -300;
       speed = 0.2;
