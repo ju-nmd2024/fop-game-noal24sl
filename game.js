@@ -3,18 +3,56 @@
 let x = 100;
 let y = 100;
 
-let characterX = 100;
-let characterY = 100;
+let characterX;
+let characterY = -300;
+
+let trampolineX = 1660;
+let trampolineY = 1630;
 
 // game logic variables -----
-let velocityY = 0.2;
-let acceleration = 0.2;
-
-// game state variables -----
-let gameState = true;
+let speed = 0.2;
+let gameState = false;
+let screen = "start";
 
 function setup() {
+  characterX = Math.random() * (width / 0.3);
   createCanvas(1000, 500);
+}
+
+function startGame(x, y) {
+  // background -----------------------------------
+  fill(45, 116, 73);
+  rect(x - 100, y - 100, 1000, 500);
+
+  // button ---------------------------------------
+  // rectangle
+  fill(255);
+  strokeWeight(7);
+  stroke(22, 63, 34);
+  rect(x + 300, y + 100, 200, 100, 10);
+
+  // "start" text
+  textSize(45);
+  textStyle(BOLD);
+  fill(22, 63, 34);
+  noStroke();
+  text("START", x + 328, y + 165);
+
+  // instructions text ----------------------------
+  // "help the panda..." text ------
+  textSize(20);
+  textStyle(BOLD);
+  fill(255);
+  noStroke();
+  text("Help the panda to", x + 315, y + 40);
+  text("land on the trampoline!", x + 290, y + 70);
+
+  // "use the arrows..." text ------
+  textSize(12);
+  textStyle(BOLD);
+  fill(255);
+  noStroke();
+  text("Use the arrows on your keyboard", x + 307, y + 235);
 }
 
 function backtrees(x, y) {
@@ -156,7 +194,7 @@ function treeDarkBackground(x, y) {
 function character(x, y) {
   push();
   // scale -----------------------------------------
-  scale(0.2);
+  scale(0.3);
   // arms ------------------------------------------
   fill(0, 0, 0);
   noStroke();
@@ -282,7 +320,6 @@ function character(x, y) {
   noFill();
   strokeWeight(3);
   stroke(0, 0, 0);
-
   ellipse(x, y + 37, 15, 20);
 
   pop();
@@ -347,16 +384,147 @@ function completeBackground() {
   pop();
 }
 
+function loseGame(x, y) {
+  screen = "lose";
+  // background -----------------------------------
+  fill(45, 116, 73);
+  rect(x - 100, y - 100, 1000, 500);
+
+  // "you lost" text ------
+  textSize(25);
+  textStyle(BOLD);
+  fill(255);
+  noStroke();
+  text("YOU LOST :(", x + 328, y + 80);
+
+  // button ---------------------------------------
+  // rectangle -----
+  fill(255);
+  strokeWeight(7);
+  stroke(22, 63, 34);
+  rect(x + 300, y + 100, 200, 100, 10);
+
+  // start -----
+  textSize(29);
+  textStyle(BOLD);
+  fill(22, 63, 34);
+  noStroke();
+  text("PLAY AGAIN", x + 314, y + 160);
+}
+
+function winGame(x, y) {
+  screen = "win";
+  // background -----------------------------------
+  fill(45, 116, 73);
+  rect(x - 100, y - 100, 1000, 500);
+
+  // "you lost" text ------
+  textSize(25);
+  textStyle(BOLD);
+  fill(255);
+  noStroke();
+  text("YOU WON :D", x + 325, y + 80);
+
+  // button ---------------------------------------
+  // rectangle -----
+  fill(255);
+  strokeWeight(7);
+  stroke(22, 63, 34);
+  rect(x + 300, y + 100, 200, 100, 10);
+
+  // start -----
+  textSize(29);
+  textStyle(BOLD);
+  fill(22, 63, 34);
+  noStroke();
+  text("PLAY AGAIN", x + 314, y + 160);
+}
+
 function draw() {
-  completeBackground();
+  // check if game has not started yet ----------
+  if (!gameState) {
+    startGame(x, y);
+    // started game -----------------------------
+  } else {
+    completeBackground();
+    character(characterX, characterY);
+    trampoline(trampolineX, trampolineY);
 
-  // character ----------------------------------
-  character(characterX + 2400, characterY);
+    // speed -----
+    characterY = characterY + speed;
 
-  // character logic -----
-  characterY = characterY + velocityY;
-  velocityY = velocityY + acceleration;
+    // arrows -----
+    // up arrow
+    if (keyIsDown(38)) {
+      speed = speed - 0.1;
+    } else {
+      speed = speed + 0.1;
+    }
 
-  // trampoline ---------------------------------
-  trampoline(x + 1560, y + 1530);
+    // left arrow
+    if (keyIsDown(37)) {
+      characterX = characterX - speed;
+      // right arrow
+    } else if (keyIsDown(39)) {
+      characterX = characterX + speed;
+    }
+
+    // game outcome logic -----
+    // if character has fallen below the trampoline
+    if (characterY + 220 > trampolineY) {
+      // if the character lands on the trampoline
+      if (
+        characterX - 40 > trampolineX - 80 &&
+        characterX + 40 < trampolineX + 80 &&
+        characterY + 220 > trampolineY &&
+        speed <= 10
+      ) {
+        // win game
+        winGame(x, y);
+        noLoop();
+        // lose game
+      } else {
+        loseGame(x, y);
+        noLoop();
+      }
+    }
+  }
+}
+
+function mousePressed() {
+  // start screen ------------------------------
+  if (screen === "start") {
+    // "start" button
+    if (
+      mouseX > x + 300 && // left
+      mouseX < x + 300 + 200 && // right
+      mouseY > y + 100 && // top
+      mouseY < y + 100 + 100 // bottom
+    ) {
+      // play game
+      gameState = true;
+      screen = "game";
+    }
+
+    // "win" & "lose" screen -------------------
+  } else if (screen === "win" || screen === "lose") {
+    // "play again" button
+    if (
+      mouseX > x + 300 && // left
+      mouseX < x + 300 + 200 && // right
+      mouseY > y + 100 && // top
+      mouseY < y + 100 + 100 // bottom
+    ) {
+      // reset the game
+      characterX = Math.random() * (width / 0.3);
+      characterY = -300;
+      speed = 0.2;
+
+      gameState = true;
+      screen = "start";
+
+      // restart draw loop to refresh game state
+      loop();
+    }
+  }
 }
